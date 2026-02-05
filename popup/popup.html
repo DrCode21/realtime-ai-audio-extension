@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="popup.css" />
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            padding: 12px;
+            width: 340px;
+        }
+
+        .row {
+            margin: 8px 0;
+        }
+
+        .buttons button {
+            margin-right: 6px;
+        }
+
+        #meter {
+            width: 100%;
+            background: #111;
+            border-radius: 6px;
+            display: block;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 6px 8px;
+            align-items: center;
+        }
+
+        .section {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        label input[type="range"] {
+            vertical-align: middle;
+            width: 160px;
+            margin-left: 6px;
+        }
+
+        small {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h3>Stream Audio Control</h3>
+
+        <div class="row">
+            <label for="aiMode">AI Mode:</label>
+            <select id="aiMode">
+                <option value="proxy" selected>Proxy DSP (fast)</option>
+                <option value="onnx">ONNX Separation</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <label><input type="checkbox" id="muteTabAudio"> Mute original tab audio</label>
+        </div>
+
+        <canvas id="meter" width="300" height="70" aria-label="Audio meters"></canvas>
+
+        <div class="section">
+            <div class="grid">
+                <label>Output Gain</label>
+                <div><input type="range" id="masterGain" min="0" max="200" value="100"> <span id="masterGainVal">100%</span></div>
+
+                <label>Voice Gain</label>
+                <div><input type="range" id="voiceGain" min="0" max="200" value="100"> <span id="voiceGainVal">100%</span></div>
+
+                <label>Background Gain</label>
+                <div><input type="range" id="bgGain" min="0" max="200" value="100"> <span id="bgGainVal">100%</span></div>
+
+                <label>Mute Voice</label>
+                <div><input type="checkbox" id="muteVoice"></div>
+
+                <label>Mute Background</label>
+                <div><input type="checkbox" id="muteBg"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="grid">
+                <label>Reduce Music Bass</label>
+                <div><input type="range" id="musicCut" min="0" max="100" value="0"> <span id="musicCutVal">0%</span></div>
+
+                <label>Reduce SFX Highs</label>
+                <div><input type="range" id="sfxCut" min="0" max="100" value="0"> <span id="sfxCutVal">0%</span></div>
+            </div>
+        </div>
+
+        <div class="row buttons section">
+            <button id="start">Start for this Tab</button>
+            <button id="stop">Stop</button>
+        </div>
+
+        <small id="status">Idle</small>
+    </main>
+    <script src="popup.js"></script>
+</body>
+</html>

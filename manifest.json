@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Stream Audio Control (Voice Focus / Crowd Cut)",
+  "version": "0.3.0",
+  "description": "Client-side voice isolation and selective muting for live streams (Twitch/YouTube/Kick).",
+  "permissions": [ "tabCapture", "offscreen", "storage", "activeTab" ],
+  "host_permissions": [
+    "*://*.twitch.tv/*",
+    "*://*.youtube.com/*",
+    "*://*.kick.com/*"
+  ],
+  "background": { "service_worker": "background.js" },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Stream Audio Control"
+  },
+  "content_scripts": [
+    {
+      "matches": [ "*://*.twitch.tv/*", "*://*.youtube.com/*", "*://*.kick.com/*" ],
+      "js": [ "content/inject.js" ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "offscreen.html",
+        "lib/ort.min.js",
+        "worklet/audio-processor.js",
+        "workers/sep_worker.js",
+        "models/mdx23c_quant.onnx"
+      ],
+      "matches": [ "<all_urls>" ]
+    }
+  ]
+}
